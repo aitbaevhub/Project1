@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Личная панель Life OS: цели и прогресс по семи сферам жизни.">
+  <title>Life OS — моя траектория</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%23162635'/%3E%3Ccircle cx='20' cy='20' r='12' fill='none' stroke='%2341dfba' stroke-width='5'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#"><span class="brand-icon">◉</span> LIFE OS</a>
+    <p class="eyebrow">МОЯ ТРАЕКТОРИЯ</p>
+    <a class="nav active" href="#overview">◫ <span>Общая картина</span></a>
+    <a class="nav" href="#domains">◎ <span>Сферы жизни</span></a>
+    <a class="nav" href="#goals">✓ <span>Мои цели</span></a>
+    <a class="nav" href="#history">↗ <span>История прогресса</span></a>
+    <div class="sidebar-bottom"><span class="local-dot"></span> На этом устройстве<p>Данные сохраняются в браузере.<br>Экспортируйте их для резервной копии.</p><button id="export" class="secondary">↓ Экспорт данных</button><button id="import" class="text-button">Импортировать копию</button><input id="import-file" type="file" accept="application/json,.json" hidden></div>
+  </aside>
+  <main>
+    <header id="overview"><div><p class="eyebrow">ЛИЧНАЯ СИСТЕМА РАЗВИТИЯ</p><h1>Жизнь в фокусе<span>.</span></h1><p class="muted" id="today"></p></div><button class="primary" id="check-in">+ Отметить прогресс</button></header>
+    <div class="intro"><span>01 — ОБЗОР</span><p>Семь сфер. Одна целостная картина.</p></div>
+    <section class="overview-grid" aria-label="Обзор прогресса">
+      <article class="panel balance"><div class="panel-heading"><h2>Баланс сфер</h2><span class="pill">Самооценка · 0–10</span></div><div id="radar"></div><p class="muted small">Оценка удовлетворённости каждой сферой. Пропуски не считаются нулём.</p></article>
+      <article class="panel summary"><p class="eyebrow">СРЕДНЯЯ ОЦЕНКА</p><div class="score"><span id="average">—</span><small>/ 10</small></div><p id="coverage" class="muted">Пока нет оценок</p><div class="mini-stats"><div><strong id="goal-count">0</strong><span>активных целей</span></div><div><strong id="complete-count">0</strong><span>достигнуто</span></div></div><div class="focus"><span class="eyebrow">БЛИЖАЙШИЙ ФОКУС</span><p id="focus-text">Начните с короткой оценки сфер жизни.</p></div></article>
+      <article class="panel governance"><p class="eyebrow">УПРАВЛЕНИЕ ПРИОРИТЕТАМИ</p><h2>Главное на неделю</h2><p class="muted">Personal Chief of Staff</p><label for="weekly-focus">Какой результат сейчас важнее всего?</label><textarea id="weekly-focus" maxlength="1000" rows="4" placeholder="Запишите один главный результат недели…"></textarea><button id="save-focus" class="secondary">Сохранить фокус</button><p class="small muted">Еженедельный обзор связывает цели всех сфер.</p></article>
+    </section>
+    <section id="domains"><div class="section-heading"><div><p class="eyebrow">02 — СФЕРЫ ЖИЗНИ</p><h2>Каждой сфере — внимание</h2></div><span class="muted">7 сфер · 17 направлений</span></div><div id="domain-grid" class="domain-grid"></div></section>
+    <section id="goals"><div class="section-heading"><div><p class="eyebrow">03 — ДВИЖЕНИЕ К ЦЕЛЯМ</p><h2>От намерения к результату</h2></div><button id="add-goal" class="primary">+ Добавить цель</button></div><div class="filter-row"><label for="goal-filter">Сфера</label><select id="goal-filter"><option value="all">Все сферы</option></select></div><div id="goal-list"></div></section>
+    <section id="history" class="panel history-panel"><div class="panel-heading"><div><p class="eyebrow">04 — ИСТОРИЯ</p><h2>Ваша траектория</h2></div><label class="history-filter">Сфера<select id="history-filter"><option value="all">Средняя оценка</option></select></label></div><div id="trend"></div><p class="muted small">Последние 12 отметок. Средние сравнимы, когда оценён один и тот же набор сфер.</p></section>
+    <footer>Life OS <span>Прогресс начинается с внимания.</span><button class="text-button" id="export-footer">Экспорт</button><button class="text-button" id="import-footer">Импорт</button><button class="text-button" id="demo">Посмотреть пример</button></footer>
+  </main>
+  <dialog id="checkin-dialog"><form id="checkin-form"><div class="dialog-heading"><div><p class="eyebrow">КОРОТКИЙ ОБЗОР</p><h2>Как идут дела?</h2></div><button type="button" class="close" data-close aria-label="Закрыть">×</button></div><p class="muted">Оцените сферы от 0 до 10. Оставьте пустыми те, которые пока не готовы оценить.</p><div id="rating-fields"></div><label for="checkin-note">Короткая заметка</label><textarea id="checkin-note" maxlength="1000" rows="2" placeholder="Что изменилось с прошлого раза?"></textarea><div class="dialog-actions"><button type="button" data-close class="secondary">Отмена</button><button class="primary" type="submit">Сохранить отметку</button></div></form></dialog>
+  <dialog id="goal-dialog"><form id="goal-form"><div class="dialog-heading"><h2>Новая цель</h2><button type="button" data-close class="close" aria-label="Закрыть">×</button></div><label for="goal-title">Желаемый результат</label><input id="goal-title" maxlength="160" required placeholder="Например, пройти 12 тренировок"><label for="goal-domain">Сфера</label><select id="goal-domain"></select><label for="goal-direction">Направление</label><select id="goal-direction"></select><div class="form-grid"><div><label for="goal-target">Целевое значение</label><input id="goal-target" type="number" min="0.01" max="1000000000" step="any" value="1" required></div><div><label for="goal-unit">Единица измерения</label><input id="goal-unit" maxlength="30" placeholder="тренировок, часов, шагов…" value="шаг"></div></div><label for="goal-date">Срок (необязательно)</label><input id="goal-date" type="date"><div class="dialog-actions"><button type="button" data-close class="secondary">Отмена</button><button class="primary" type="submit">Добавить цель</button></div></form></dialog>
+  <dialog id="progress-dialog"><form id="progress-form"><div class="dialog-heading"><h2>Обновить результат</h2><button type="button" data-close class="close" aria-label="Закрыть">×</button></div><p id="progress-title"></p><label for="progress-value">Текущее значение</label><input id="progress-value" type="number" min="0" max="1000000000" step="any" required><p id="progress-target" class="muted"></p><div class="dialog-actions"><button type="button" data-close class="secondary">Отмена</button><button class="primary" type="submit">Сохранить</button></div></form></dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+</body></html>
